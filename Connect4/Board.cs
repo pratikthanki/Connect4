@@ -140,6 +140,64 @@ namespace Connect4
 
         public bool CheckDiagonal(Counter counter)
         {
+            int x;
+            int y;
+            var count = 0;
+
+            for (var row = 0; row < 6; row++)
+            {
+                for (var col = 0; col < 7; col++)
+                {
+                    x = col;
+                    y = row;
+
+                    // ------------- check for a \ diagonal win ---------------------
+                    while (x < _board.GetLength(1) && y < _board.GetLength(0))
+                    {
+                        if (_board[y, x] == null || _board[y, x].GetCounter() != counter.GetCounter())
+                        {
+                            count = 0;
+                        }
+                        else
+                        {
+                            count++;
+                            if (count == winCondition)
+                            {
+                                Console.WriteLine("diagonal win");
+                                return true;
+                            }
+                        }
+
+                        x++;
+                        y++;
+                    }
+
+                    // ------------- check for a / diagonal win ---------------------
+                    x = col;
+                    y = row;
+                    count = 0;
+                    while (x < _board.GetLength(1) && y >= 0 && y < _board.GetLength(0))
+                    {
+                        if (_board[y, x] == null || _board[y, x].GetCounter() != counter.GetCounter())
+                        {
+                            count = 0;
+                        }
+                        else
+                        {
+                            count++;
+                            if (count == winCondition)
+                            {
+                                Console.WriteLine("diagonal win");
+                                return true;
+                            }
+                        }
+
+                        y--;
+                        x++;
+                    }
+                }
+            }
+
             return false;
         }
     }
