@@ -1,18 +1,22 @@
-﻿using System;
-
+﻿
 namespace Connect4
 {
     public class InputHandler
     {
-
         public InputHandler()
         {
         }
 
-        public void InitialiseGame()
+        public static void InitialiseGame()
         {
-            Game game = new Game();
+            var game = new Game();
             game.GameIntro();
+        }
+        
+        public static void RestartGame()
+        {
+            var game = new Game();
+            game.RestartGame();
         }
     }
 }
