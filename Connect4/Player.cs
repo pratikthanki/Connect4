@@ -1,10 +1,9 @@
-﻿using System;
-
+﻿
 namespace Connect4
 {
     public class Player
     {
-        private Counter counter;
+        private readonly Counter counter;
         public Player(Counter counter)
         {
             this.counter = counter;
@@ -12,7 +11,7 @@ namespace Connect4
 
         public Counter GetCounter()
         {
-            return this.counter;
+            return counter;
         }
     }
 }
