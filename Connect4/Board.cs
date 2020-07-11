@@ -4,30 +4,30 @@ namespace Connect4
 {
     public class Board
     {
-        private readonly Counter[,] board;
+        private readonly Counter[,] _board;
         private readonly int winCondition;
 
         public Board()
         {
             var rows = 6;
             var columns = 7;
-            board = new Counter[rows, columns];
+            _board = new Counter[rows,columns];
             winCondition = 4;
         }
 
         public void PrintBoard()
         {
-            for (var i = 0; i < board.GetLength(0); i++)
+            for (var i = 0; i < _board.GetLength(0); i++)
             {
-                for (var j = 0; j < board.GetLength(1); j++)
+                for (var j = 0; j < _board.GetLength(1); j++)
                 {
-                    if (board[i, j] == null)
+                    if (_board[i,j] == null)
                     {
                         Console.Write("|   ");
                     }
                     else
                     {
-                        Console.Write("| " + board[i, j].GetCounter() + " ");
+                        Console.Write("| " + _board[i,j].GetCounter() + " ");
                     }
                 }
 
