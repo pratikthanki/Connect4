@@ -4,102 +4,97 @@ namespace Connect4
 {
     public class Board
     {
-        private Counter[,] board;
-        private int winCondition;
+        private readonly Counter[,] _board;
+        private readonly int winCondition;
 
         public Board()
         {
-            int rows = 6;
-            int columns = 7;
-            board = new Counter[rows, columns];
+            var rows = 6;
+            var columns = 7;
+            _board = new Counter[rows,columns];
             winCondition = 4;
         }
 
         public void PrintBoard()
         {
-            for (int i = 0; i < board.GetLength(0); i++)
+            for (var i = 0; i < _board.GetLength(0); i++)
             {
-                for (int j = 0; j < board.GetLength(1); j++)
+                for (var j = 0; j < _board.GetLength(1); j++)
                 {
-                    if (board[i, j] == null)
+                    if (_board[i,j] == null)
                     {
                         Console.Write("|   ");
                     }
                     else
                     {
-                        Console.Write("| " + board[i, j].GetCounter() + " ");
+                        Console.Write("| " + _board[i,j].GetCounter() + " ");
                     }
                 }
+
                 Console.WriteLine("|");
             }
-            Console.WriteLine("  1   2   3   4   5   6   7");
 
+            Console.WriteLine("  1   2   3   4   5   6   7");
         }
 
         public bool CanPlay()
         {
-            for (int i = 0; i < board.GetLength(0); i++)
+            for (var i = 0; i < _board.GetLength(0); i++)
             {
-                for (int j = 0; j < board.GetLength(1); j++)
+                for (var j = 0; j < _board.GetLength(1); j++)
                 {
-                    if (board[i, j] == null)
+                    if (_board[i,j] == null)
                     {
                         return true;
                     }
                 }
             }
+
             Console.WriteLine("No further moves available");
             return false;
         }
 
         public bool PlaceCounter(int position, Counter player)
         {
-            int ixPosition = position - 1;
-            if (ixPosition >= 0 && ixPosition <= board.GetLength(0))
+            var ixPosition = position - 1;
+            if (ixPosition >= 0 && ixPosition <= _board.Length)
             {
-                for (int i = board.GetLength(0) -1; i >= 0; i--)
+                for (var i = _board.GetLength(0) - 1; i >= 0; i--)
                 {
-                    if (board[i, ixPosition] == null)
+                    if (_board[i,ixPosition] == null)
                     {
-                        board[i, ixPosition] = new Counter(player.GetCounter());
+                        _board[i,ixPosition] = new Counter(player.GetCounter());
                         return true;
-                    } else
+                    }
+
+                    if (i == 0 && _board[i,ixPosition] != null)
                     {
-                        if (i == 0 && board[i, ixPosition] != null)
-                        {
-                            Console.WriteLine($"Invalid input: no moves available in this position");
-                        }
-                        continue;
+                        Console.WriteLine($"Invalid input: no moves available in this position");
                     }
                 }
                 return false;
             }
-            else
-            {
-                Console.WriteLine("Invalid input: number must be between 1-7");
-                return false;
-            }
+            Console.WriteLine("Invalid input: number must be between 1-7");
+            return false;
         }
 
         public bool CheckWin(Counter counter)
         {
-            if (CheckDiagonal(counter) || CheckHorizontal(counter) || CheckVertical(counter))
-            {
-                Console.WriteLine($"Game over: player {counter.GetCounter()} has won");
-                return true;
-            }
-            return false;
+            if (!CheckDiagonal(counter) && !CheckHorizontal(counter) && !CheckVertical(counter)) return false;
+
+            Console.WriteLine($"Game over: player {counter.GetCounter()} has won");
+            return true;
+
         }
 
         public bool CheckHorizontal(Counter counter)
         {
-            int count = 0;
-            for (int i = 0; i < board.GetLength(0); i++)
+            for (var i = 0; i < _board.GetLength(0); i++)
             {
-                count = 0;
-                for (int j = 0; j < board.GetLength(1); j++)
+                var count = 0;
+                for (var j = 0; j < _board.GetLength(1); j++)
                 {
-                    if (board[i, j] == null || board[i, j].GetCounter() != counter.GetCounter())
+                    if (_board[i,j] == null || _board[i,j].GetCounter() != counter.GetCounter())
                     {
                         count = 0;
                     } else
@@ -119,13 +114,12 @@ namespace Connect4
 
         public bool CheckVertical(Counter counter)
         {
-            int count = 0;
-            for (int i = board.GetLength(0) - 1; i >= 0; i--)
+            for (var i = _board.GetLength(0) - 1; i >= 0; i--)
             {
-                count = 0;
-                for (int j = 0; j < board.GetLength(0); j++)
+                var count = 0;
+                for (var j = 0; j < _board.GetLength(0); j++)
                 {
-                    if (board[j, i] == null || board[j, i].GetCounter() != counter.GetCounter())
+                    if (_board[j,i] == null || _board[j,i].GetCounter() != counter.GetCounter())
                     {
                         count = 0;
                     }
@@ -146,6 +140,64 @@ namespace Connect4
 
         public bool CheckDiagonal(Counter counter)
         {
+            int x;
+            int y;
+            var count = 0;
+
+            for (var row = 0; row < 6; row++)
+            {
+                for (var col = 0; col < 7; col++)
+                {
+                    x = col;
+                    y = row;
+
+                    // ------------- check for a \ diagonal win ---------------------
+                    while (x < _board.GetLength(1) && y < _board.GetLength(0))
+                    {
+                        if (_board[y, x] == null || _board[y, x].GetCounter() != counter.GetCounter())
+                        {
+                            count = 0;
+                        }
+                        else
+                        {
+                            count++;
+                            if (count == winCondition)
+                            {
+                                Console.WriteLine("diagonal win");
+                                return true;
+                            }
+                        }
+
+                        x++;
+                        y++;
+                    }
+
+                    // ------------- check for a / diagonal win ---------------------
+                    x = col;
+                    y = row;
+                    count = 0;
+                    while (x < _board.GetLength(1) && y >= 0 && y < _board.GetLength(0))
+                    {
+                        if (_board[y, x] == null || _board[y, x].GetCounter() != counter.GetCounter())
+                        {
+                            count = 0;
+                        }
+                        else
+                        {
+                            count++;
+                            if (count == winCondition)
+                            {
+                                Console.WriteLine("diagonal win");
+                                return true;
+                            }
+                        }
+
+                        y--;
+                        x++;
+                    }
+                }
+            }
+
             return false;
         }
     }

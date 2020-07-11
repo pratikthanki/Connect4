@@ -1,17 +1,16 @@
-﻿using System;
-
+﻿
 namespace Connect4
 {
     public class Counter
     {
-        private String counter;
+        private string counter;
 
-        public Counter(String counter)
+        public Counter(string counter)
         {
             this.counter = counter;
         }
 
-        public String GetCounter()
+        public string GetCounter()
         {
             return counter;
         }
