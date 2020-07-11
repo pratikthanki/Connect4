@@ -5,9 +5,9 @@ namespace Connect4
 {
     public class Game
     {
-        private Board board;
-        private List<Player> players = new List<Player>();
-        string userInput;
+        private readonly Board board;
+        private readonly List<Player> players = new List<Player>();
+        private string userInput;
 
         public Game()
         {
@@ -22,29 +22,37 @@ namespace Connect4
 
             InitializePlayers();
             PlayGame();
-
         }
 
-        public void InitializePlayers()
+        public void RestartGame()
         {
-            Player player1 = new Player(new Counter("r"));
-            Player player2 = new Player(new Counter("y"));
+            Console.WriteLine("New game started!");
+            board.PrintBoard();
+
+            InitializePlayers();
+            PlayGame();
+        }
+
+        private void InitializePlayers()
+        {
+            var player1 = new Player(new Counter("r"));
+            var player2 = new Player(new Counter("y"));
 
             players.Add(player1);
             players.Add(player2);
         }
 
-        public void PlayGame()
+        private void PlayGame()
         {
-            int turn = 0;
-            int retry = 1;
+            var turn = 0;
+            var retry = 1;
 
             while(board.CanPlay())
             {
-                Player currentPlayer = players[turn % 2];
+                var currentPlayer = players[turn % 2];
                 userInput = Console.ReadLine();
 
-                while (!ValidInput(userInput))
+                while (!IsValidInput(userInput))
                 {
                     userInput = Console.ReadLine();
 
@@ -56,8 +64,8 @@ namespace Connect4
                     }
                 }
 
-                int position = Int32.Parse(userInput);
-                bool valid = board.PlaceCounter(position, currentPlayer.GetCounter());
+                var position = Int32.Parse(userInput);
+                var valid = board.PlaceCounter(position, currentPlayer.GetCounter());
 
                 retry = 1;
                 while (!valid)
@@ -83,13 +91,17 @@ namespace Connect4
                 turn++;
                 retry = 1;
             }
+            
+            Console.WriteLine("Would you like to play again? [Y/N]");
+            userInput = Console.ReadLine();
+            PlayAgain(userInput);
         }
 
-        public bool ValidInput(string userInput)
+        private static bool IsValidInput(string userInput)
         {
             try
             {
-                int result = Int32.Parse(userInput);
+                int.Parse(userInput);
             }
             catch (FormatException)
             {
@@ -97,6 +109,22 @@ namespace Connect4
                 return false;
             }
             return true;
+        }
+
+        private void PlayAgain(string input)
+        {
+            if (input == "Y")
+            {
+                InputHandler.InitialiseGame();
+            }
+            else if (input == "N")
+            {
+                Console.WriteLine("Exiting the game.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid input; enter Y or N.");
+            }
         }
     }
 }
