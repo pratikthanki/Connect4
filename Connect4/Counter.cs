@@ -3,7 +3,7 @@ namespace Connect4
 {
     public class Counter
     {
-        private string counter;
+        private readonly string counter;
 
         public Counter(string counter)
         {
