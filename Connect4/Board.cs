@@ -27,7 +27,17 @@ namespace Connect4
                     }
                     else
                     {
-                        Console.Write("| " + _board[i,j].GetCounter() + " ");
+                        Console.Write("| ");
+
+                        var counter = _board[i, j].GetCounter();
+                        if (counter == "r")
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+
+                        if (counter == "y")
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+
+                        Console.Write(counter + " ");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                 }
 
