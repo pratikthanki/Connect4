@@ -92,9 +92,7 @@ namespace Connect4
                 retry = 1;
             }
             
-            Console.WriteLine("Would you like to play again? [Y/N]");
-            userInput = Console.ReadLine();
-            PlayAgain(userInput);
+            PlayAgain();
         }
 
         private static bool IsValidInput(string userInput)
@@ -111,19 +109,28 @@ namespace Connect4
             return true;
         }
 
-        private void PlayAgain(string input)
+        private void PlayAgain()
         {
-            if (input == "Y")
+            Console.WriteLine("Would you like to play again? [Y/N] Or Q to quit.");
+            userInput = Console.ReadLine();
+
+            if (userInput.ToUpper() == "Y")
             {
                 InputHandler.InitialiseGame();
             }
-            else if (input == "N")
+            else if (userInput.ToUpper() == "N")
             {
                 Console.WriteLine("Exiting the game.");
+            }
+            else if (userInput.ToUpper() == "Q")
+            {
+                Console.WriteLine("Shutting down..");
+                return;
             }
             else
             {
                 Console.WriteLine("Invalid input; enter Y or N.");
+                PlayAgain();
             }
         }
     }
