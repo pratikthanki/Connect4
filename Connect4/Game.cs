@@ -12,12 +12,12 @@ namespace Connect4
         public Game()
         {
             board = new Board();
+            GameIntro();
         }
 
         public void GameIntro()
         {
-            Console.WriteLine("Welcome to Connect4!");
-            Console.WriteLine("Enter a number to place a counter in that column.");
+            Console.WriteLine("Welcome to Connect4!\nEnter a number to place a counter in that column.");
             board.PrintBoard();
 
             InitializePlayers();

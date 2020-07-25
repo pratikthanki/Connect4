@@ -9,8 +9,7 @@ namespace Connect4
 
         public static void InitialiseGame()
         {
-            var game = new Game();
-            game.GameIntro();
+            new Game();
         }
         
         public static void RestartGame()

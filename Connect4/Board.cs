@@ -11,7 +11,7 @@ namespace Connect4
         {
             var rows = 6;
             var columns = 7;
-            _board = new Counter[rows,columns];
+            _board = new Counter[rows, columns];
             winCondition = 4;
         }
 
@@ -21,7 +21,7 @@ namespace Connect4
             {
                 for (var j = 0; j < _board.GetLength(1); j++)
                 {
-                    if (_board[i,j] == null)
+                    if (_board[i, j] == null)
                     {
                         Console.Write("|   ");
                     }
@@ -37,7 +37,7 @@ namespace Connect4
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
 
                         Console.Write(counter + " ");
-                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.ResetColor();
                     }
                 }
 
@@ -53,7 +53,7 @@ namespace Connect4
             {
                 for (var j = 0; j < _board.GetLength(1); j++)
                 {
-                    if (_board[i,j] == null)
+                    if (_board[i, j] == null)
                     {
                         return true;
                     }
@@ -71,19 +71,21 @@ namespace Connect4
             {
                 for (var i = _board.GetLength(0) - 1; i >= 0; i--)
                 {
-                    if (_board[i,ixPosition] == null)
+                    if (_board[i, ixPosition] == null)
                     {
-                        _board[i,ixPosition] = new Counter(player.GetCounter());
+                        _board[i, ixPosition] = new Counter(player.GetCounter());
                         return true;
                     }
 
-                    if (i == 0 && _board[i,ixPosition] != null)
+                    if (i == 0 && _board[i, ixPosition] != null)
                     {
                         Console.WriteLine($"Invalid input: no moves available in this position");
                     }
                 }
+
                 return false;
             }
+
             Console.WriteLine("Invalid input: number must be between 1-7");
             return false;
         }
@@ -92,7 +94,14 @@ namespace Connect4
         {
             if (!CheckDiagonal(counter) && !CheckHorizontal(counter) && !CheckVertical(counter)) return false;
 
+            if (counter.GetCounter() == "r")
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+
+            if (counter.GetCounter() == "y")
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+
             Console.WriteLine($"Game over: player {counter.GetCounter()} has won");
+            Console.ResetColor();
             return true;
 
         }
@@ -104,21 +113,22 @@ namespace Connect4
                 var count = 0;
                 for (var j = 0; j < _board.GetLength(1); j++)
                 {
-                    if (_board[i,j] == null || _board[i,j].GetCounter() != counter.GetCounter())
+                    if (_board[i, j] == null || _board[i, j].GetCounter() != counter.GetCounter())
                     {
                         count = 0;
-                    } else
+                    }
+                    else
                     {
                         count++;
                         if (count == winCondition)
                         {
-                            Console.WriteLine("Horizontal Win");
                             return true;
                         }
 
                     }
                 }
             }
+
             return false;
         }
 
@@ -129,7 +139,7 @@ namespace Connect4
                 var count = 0;
                 for (var j = 0; j < _board.GetLength(0); j++)
                 {
-                    if (_board[j,i] == null || _board[j,i].GetCounter() != counter.GetCounter())
+                    if (_board[j, i] == null || _board[j, i].GetCounter() != counter.GetCounter())
                     {
                         count = 0;
                     }
@@ -138,13 +148,13 @@ namespace Connect4
                         count++;
                         if (count == winCondition)
                         {
-                            Console.WriteLine("vertical Win");
                             return true;
                         }
 
                     }
                 }
             }
+
             return false;
         }
 
@@ -173,7 +183,6 @@ namespace Connect4
                             count++;
                             if (count == winCondition)
                             {
-                                Console.WriteLine("diagonal win");
                                 return true;
                             }
                         }
@@ -197,7 +206,6 @@ namespace Connect4
                             count++;
                             if (count == winCondition)
                             {
-                                Console.WriteLine("diagonal win");
                                 return true;
                             }
                         }
