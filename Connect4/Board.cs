@@ -15,6 +15,11 @@ namespace Connect4
             winCondition = 4;
         }
 
+        public Counter GetCell(int row, int column)
+        {
+            return _board[row, column];
+        }
+
         public void PrintBoard()
         {
             for (var i = 0; i < _board.GetLength(0); i++)
@@ -94,6 +99,8 @@ namespace Connect4
         {
             if (!CheckDiagonal(counter) && !CheckHorizontal(counter) && !CheckVertical(counter)) return false;
 
+            PrintBoard();
+
             if (counter.GetCounter() == "r")
                 Console.ForegroundColor = ConsoleColor.DarkRed;
 
@@ -106,7 +113,7 @@ namespace Connect4
 
         }
 
-        public bool CheckHorizontal(Counter counter)
+        private bool CheckHorizontal(Counter counter)
         {
             for (var i = 0; i < _board.GetLength(0); i++)
             {
@@ -132,7 +139,7 @@ namespace Connect4
             return false;
         }
 
-        public bool CheckVertical(Counter counter)
+        private bool CheckVertical(Counter counter)
         {
             for (var i = _board.GetLength(0) - 1; i >= 0; i--)
             {
@@ -158,7 +165,7 @@ namespace Connect4
             return false;
         }
 
-        public bool CheckDiagonal(Counter counter)
+        private bool CheckDiagonal(Counter counter)
         {
             int x;
             int y;

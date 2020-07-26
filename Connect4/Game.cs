@@ -12,7 +12,6 @@ namespace Connect4
         public Game()
         {
             board = new Board();
-            GameIntro();
         }
 
         public void GameIntro()
@@ -21,7 +20,6 @@ namespace Connect4
             board.PrintBoard();
 
             InitializePlayers();
-            PlayGame();
         }
 
         public void RestartGame()
@@ -30,7 +28,6 @@ namespace Connect4
             board.PrintBoard();
 
             InitializePlayers();
-            PlayGame();
         }
 
         private void InitializePlayers()
@@ -42,7 +39,7 @@ namespace Connect4
             players.Add(player2);
         }
 
-        private void PlayGame()
+        public void PlayGame()
         {
             var turn = 0;
             var retry = 1;
@@ -81,11 +78,7 @@ namespace Connect4
                     }
                 }
 
-                if (board.CheckWin(currentPlayer.GetCounter()))
-                {
-                    board.PrintBoard();
-                    break;
-                }
+                if (board.CheckWin(currentPlayer.GetCounter())) break;
 
                 board.PrintBoard();
                 turn++;
