@@ -1,9 +1,9 @@
 # Connect4
 
-Was bored this weekend during the lockdown, so decided to build a Connect4 game.
+Was bored over a lockdown weekend, so decided to build a Connect 4 game.
 
-Some todo's I'll do at a later point;
-- get the diagonal win check working
-- dynamically set board size
-- command line is breat but build a nicer UI
-- playing against a bot
+Some todo's for this project;
+- [x] get the diagonal win check working
+- [ ] dynamically set board size
+- [ ] build a UI (blazor?)
+- [ ] playing against a bot
